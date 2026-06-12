@@ -12,8 +12,8 @@ UnrollFactor=1  WarmupCount=3
 ```
 | Method            | Mean     | Error   | StdDev  | Allocated |
 |------------------ |---------:|--------:|--------:|----------:|
-| CSharpSynth       | 791.2 ms | 3.24 ms | 2.14 ms |  346192 B |
-| MeltySynth        | 600.8 ms | 2.37 ms | 1.57 ms |         - |
-| MeltySynthEffect  | 865.7 ms | 2.22 ms | 1.32 ms |         - |
-| SpessaSharp       | 643.1 ms | 1.74 ms | 1.03 ms |         - |
-| SpessaSharpEffect | 893.8 ms | 2.86 ms | 1.89 ms |         - |
+| CSharpSynth       | 784.1 ms | 3.36 ms | 2.22 ms |  346192 B |
+| MeltySynth        | 596.7 ms | 3.02 ms | 2.00 ms |         - |
+| MeltySynthEffect  | 871.3 ms | 3.68 ms | 2.19 ms |         - |
+| SpessaSharp       | 483.6 ms | 3.32 ms | 1.97 ms |         - |
+| SpessaSharpEffect | 740.9 ms | 4.89 ms | 3.23 ms |         - |
