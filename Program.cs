@@ -21,7 +21,9 @@ public class ProcessingBenchmarks
 {
     private CSharpSynthContext? csharpSynthContext;
     private MeltySynthContext? meltySynthContext;
-    private MeltySynthEffectContext? meltySynthEffectContext;
+    private MeltySynthContext? meltySynthEffectContext;
+    private SpessaSharpContext? spessaSharpContext;
+    private SpessaSharpContext? spessaSharpEffectContext;
 
     public static void Test()
     {
@@ -29,10 +31,16 @@ public class ProcessingBenchmarks
         new CSharpSynthContext().Test();
 
         Console.WriteLine("Testing MeltySynth...");
-        new MeltySynthContext().Test();
+        new MeltySynthContext(false).Test("MeltySynth");
 
         Console.WriteLine("Testing MeltySynthEffect...");
-        new MeltySynthEffectContext().Test();
+        new MeltySynthContext(true).Test("MeltySynthEffect");
+
+        Console.WriteLine("Testing SpessaSharp...");
+        new SpessaSharpContext(false).Test("SpessaSharp");
+
+        Console.WriteLine("Testing SpessaSharpEffect...");
+        new SpessaSharpContext(true).Test("SpessaSharpEffect");
     }
 
     [GlobalSetup(Target = nameof(CSharpSynth))]
@@ -51,7 +59,7 @@ public class ProcessingBenchmarks
     [GlobalSetup(Target = nameof(MeltySynth))]
     public void SetupMeltySynth()
     {
-        meltySynthContext = new MeltySynthContext();
+        meltySynthContext = new MeltySynthContext(false);
     }
 
     [GlobalCleanup(Target = nameof(MeltySynth))]
@@ -64,14 +72,40 @@ public class ProcessingBenchmarks
     [GlobalSetup(Target = nameof(MeltySynthEffect))]
     public void SetupMeltySynthEffect()
     {
-        meltySynthEffectContext = new MeltySynthEffectContext();
+        meltySynthEffectContext = new MeltySynthContext(true);
     }
 
-    [GlobalCleanup(Target = nameof(MeltySynthEffectContext))]
+    [GlobalCleanup(Target = nameof(MeltySynthEffect))]
     public void CleanupMeltySynthEffect()
     {
         meltySynthEffectContext?.Dispose();
         meltySynthEffectContext = null;
+    }
+
+    [GlobalSetup(Target = nameof(SpessaSharp))]
+    public void SetupSpessaSharp()
+    {
+        spessaSharpContext = new SpessaSharpContext(false);
+    }
+
+    [GlobalCleanup(Target = nameof(SpessaSharp))]
+    public void CleanupSpessaSharp()
+    {
+        spessaSharpContext?.Dispose();
+        spessaSharpContext = null;
+    }
+
+    [GlobalSetup(Target = nameof(SpessaSharpEffect))]
+    public void SetupSpessaSharpEffect()
+    {
+        spessaSharpEffectContext = new SpessaSharpContext(true);
+    }
+
+    [GlobalCleanup(Target = nameof(SpessaSharpEffect))]
+    public void CleanupSpessaSharpEffect()
+    {
+        spessaSharpEffectContext?.Dispose();
+        spessaSharpEffectContext = null;
     }
 
     [Benchmark]
@@ -90,5 +124,17 @@ public class ProcessingBenchmarks
     public void MeltySynthEffect()
     {
         meltySynthEffectContext!.Execute();
+    }
+
+    [Benchmark]
+    public void SpessaSharp()
+    {
+        spessaSharpContext!.Execute();
+    }
+
+    [Benchmark]
+    public void SpessaSharpEffect()
+    {
+        spessaSharpEffectContext!.Execute();
     }
 }
