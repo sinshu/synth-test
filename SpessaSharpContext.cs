@@ -24,6 +24,7 @@ class SpessaSharpContext : IDisposable
         };
 
         processor = new SpessaSharpProcessor(Settings.SampleRate, options);
+        processor.Set(GlobalSystemParameter.Of(Synthesizer.InterpolationType.Linear));
         processor.Set(GlobalSystemParameter.Of(GlobalSystemParameter.Type.VoiceCap, Settings.MaximumPolyphony));
 
         var soundBank = SoundBank.From(new FileInfo(Settings.SoundFontPath));
