@@ -11,8 +11,9 @@
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.15.8" />
     <PackageReference Include="MeltySynth" Version="2.4.1" />
-    <PackageReference Include="NAudio.Core" Version="2.3.0" />
-    <PackageReference Include="SpessaSharp" Version="4.3.6" />
+    <PackageReference Include="NAudio.Core" Version="3.1.0" />
+    <PackageReference Include="NAudio.Sampler" Version="3.1.0" />
+    <PackageReference Include="SpessaSharp" Version="4.3.16-nightly-00079" />
   </ItemGroup>
 
   <ItemGroup>

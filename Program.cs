@@ -6,6 +6,11 @@ using BenchmarkDotNet.Running;
 
 ProcessingBenchmarks.Test();
 
+if (Array.IndexOf(args, "--test-only") >= 0)
+{
+    return;
+}
+
 BenchmarkRunner.Run<ProcessingBenchmarks>(
     ManualConfig
         .Create(DefaultConfig.Instance)
@@ -24,6 +29,8 @@ public class ProcessingBenchmarks
     private MeltySynthContext? meltySynthEffectContext;
     private SpessaSharpContext? spessaSharpContext;
     private SpessaSharpContext? spessaSharpEffectContext;
+    private NAudioContext? naudioContext;
+    private NAudioContext? naudioEffectContext;
 
     public static void Test()
     {
@@ -41,7 +48,47 @@ public class ProcessingBenchmarks
 
         Console.WriteLine("Testing SpessaSharpEffect...");
         new SpessaSharpContext(true).Test("SpessaSharpEffect");
+
+        Console.WriteLine("Testing NAudio...");
+        using var naudio = new NAudioContext(false);
+        naudio.Test("NAudio");
+
+        Console.WriteLine("Testing NAudioEffect...");
+        using var naudioEffect = new NAudioContext(true);
+        naudioEffect.Test("NAudioEffect");
     }
+
+    [GlobalSetup(Target = nameof(NAudio))]
+    public void SetupNAudio() => naudioContext = new NAudioContext(false);
+
+    [IterationSetup(Target = nameof(NAudio))]
+    public void ResetNAudio() => naudioContext!.Reset();
+
+    [GlobalCleanup(Target = nameof(NAudio))]
+    public void CleanupNAudio()
+    {
+        naudioContext?.Dispose();
+        naudioContext = null;
+    }
+
+    [GlobalSetup(Target = nameof(NAudioEffect))]
+    public void SetupNAudioEffect() => naudioEffectContext = new NAudioContext(true);
+
+    [IterationSetup(Target = nameof(NAudioEffect))]
+    public void ResetNAudioEffect() => naudioEffectContext!.Reset();
+
+    [GlobalCleanup(Target = nameof(NAudioEffect))]
+    public void CleanupNAudioEffect()
+    {
+        naudioEffectContext?.Dispose();
+        naudioEffectContext = null;
+    }
+
+    [Benchmark]
+    public void NAudio() => naudioContext!.Execute();
+
+    [Benchmark]
+    public void NAudioEffect() => naudioEffectContext!.Execute();
 
     [GlobalSetup(Target = nameof(CSharpSynth))]
     public void SetupCSharpSynth()

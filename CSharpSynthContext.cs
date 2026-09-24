@@ -16,7 +16,7 @@ class CSharpSynthContext : IDisposable
     {
         midiFile = new MidiFile(Settings.MidiFilePath);
 
-        synthesizer = new Synthesizer(Settings.SampleRate, 2, Settings.BlockSize, 1);
+        synthesizer = new Synthesizer(Settings.SampleRate, 2, Settings.BlockSize, 1, Settings.MaximumPolyphony);
         synthesizer.LoadBank(Settings.SoundFontPath);
         sequencer = new MidiFileSequencer(synthesizer);
 
